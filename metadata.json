@@ -1,0 +1,6 @@
+{
+  "name": "Medical Equipment Tracker & Delivery",
+  "description": "A website for borrowing required medical equipment from nearby hospitals and tracking inventory and delivery in real-time.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
