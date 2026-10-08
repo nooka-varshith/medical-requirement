@@ -5,10 +5,10 @@ export const INITIAL_HOSPITALS: Hospital[] = [
     id: 'hosp-1',
     name: 'City General Medical Center',
     licenseNumber: 'LIC-2023-88912',
-    location: '450 Healthcare Blvd, Metro Sector 4',
-    contact: '+1 (555) 123-4567',
-    lat: 40,
-    lng: 80,
+    location: 'Road No. 12, Banjara Hills, Hyderabad',
+    contact: '+91 40 2345-6789',
+    lat: 17.4126,
+    lng: 78.4503,
     verified: true,
     equipment: [
       { id: 'eq-1-1', name: 'O2 Cylinder (45L)', category: 'Oxygen', available: 12, total: 15, unit: 'cylinders' },
@@ -24,10 +24,10 @@ export const INITIAL_HOSPITALS: Hospital[] = [
     id: 'hosp-2',
     name: 'St. Jude Specialty Hospital',
     licenseNumber: 'LIC-2021-44120',
-    location: '72 Oakwood Ave, North District',
-    contact: '+1 (555) 987-6543',
-    lat: -20,
-    lng: 40,
+    location: 'Road No. 36, Jubilee Hills, Hyderabad',
+    contact: '+91 40 6677-8899',
+    lat: 17.4195,
+    lng: 78.4465,
     verified: true,
     equipment: [
       { id: 'eq-2-1', name: 'O2 Cylinder (45L)', category: 'Oxygen', available: 2, total: 10, unit: 'cylinders' },
@@ -41,10 +41,10 @@ export const INITIAL_HOSPITALS: Hospital[] = [
     id: 'hosp-3',
     name: 'Metro Trauma & Emergency Hospital',
     licenseNumber: 'LIC-2024-11094',
-    location: '12 Expressway Ring Road',
-    contact: '+1 (555) 441-0988',
-    lat: 60,
-    lng: -30,
+    location: 'Punjagutta Circle, Hyderabad',
+    contact: '+91 40 2789-0011',
+    lat: 17.4080,
+    lng: 78.4535,
     verified: true,
     equipment: [
       { id: 'eq-3-1', name: 'O2 Cylinder (45L)', category: 'Oxygen', available: 20, total: 25, unit: 'cylinders' },
@@ -62,10 +62,10 @@ export const INITIAL_STORES: MedicalStore[] = [
     id: 'store-1',
     name: 'Apothecary 24/7 Wellness Pharmacy',
     licenseNumber: 'PHAR-2022-9901',
-    location: '202 Central Galleria, Block B',
-    contact: '+1 (555) 304-9988',
-    lat: 30,
-    lng: 10,
+    location: 'Road No. 2, Banjara Hills, Hyderabad',
+    contact: '+91 40 4455-6677',
+    lat: 17.4155,
+    lng: 78.4478,
     medicines: [
       { id: 'med-1-1', name: 'Remdesivir Infusion (100mg)', category: 'Antiviral', available: true, stock: 18, price: 120 },
       { id: 'med-1-2', name: 'Epipen Auto-Injector (0.3mg)', category: 'Emergency', available: true, stock: 8, price: 95 },
@@ -79,10 +79,10 @@ export const INITIAL_STORES: MedicalStore[] = [
     id: 'store-2',
     name: 'MediQuick Rx Center',
     licenseNumber: 'PHAR-2020-1123',
-    location: '88 Station View Lane',
-    contact: '+1 (555) 776-5544',
-    lat: -30,
-    lng: 30,
+    location: 'Panjagutta Road, Hyderabad',
+    contact: '+91 40 9988-7766',
+    lat: 17.4058,
+    lng: 78.4458,
     medicines: [
       { id: 'med-2-1', name: 'Remdesivir Infusion (100mg)', category: 'Antiviral', available: false, stock: 0, price: 130 },
       { id: 'med-2-2', name: 'Epipen Auto-Injector (0.3mg)', category: 'Emergency', available: true, stock: 4, price: 98 },
@@ -95,7 +95,7 @@ export const INITIAL_STORES: MedicalStore[] = [
 ];
 
 export const INITIAL_RIDERS: Rider[] = [
-  { id: 'rider-1', name: 'Sarah Connor', phone: '+1 (555) 234-9001', vehicleNo: 'MOTO-TX-800', lat: 10, lng: 10, status: 'idle' },
-  { id: 'rider-2', name: 'David Miller', phone: '+1 (555) 876-0092', vehicleNo: 'BIKE-DX-990W', lat: -10, lng: 20, status: 'idle' },
-  { id: 'rider-3', name: 'Marcus Vance', phone: '+1 (555) 661-4456', vehicleNo: 'EV-MOTO-404X', lat: 30, lng: -20, status: 'idle' }
+  { id: 'rider-1', name: 'Sarah Connor', phone: '+91 98765-43210', vehicleNo: 'TS-01-EV-8800', lat: 17.4140, lng: 78.4490, status: 'idle' },
+  { id: 'rider-2', name: 'David Miller', phone: '+91 97654-32109', vehicleNo: 'TS-02-DX-9900', lat: 17.4110, lng: 78.4520, status: 'idle' },
+  { id: 'rider-3', name: 'Marcus Vance', phone: '+91 96543-21098', vehicleNo: 'TS-03-EV-4040', lat: 17.4160, lng: 78.4510, status: 'idle' }
 ];

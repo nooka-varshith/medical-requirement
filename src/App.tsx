@@ -16,7 +16,8 @@ import {
   Clock, 
   ShieldCheck, 
   FileLock2, 
-  Layers 
+  Layers,
+  Sparkles
 } from 'lucide-react';
 
 import { EquipmentItem, MedicineItem, Hospital, MedicalStore, Rider, RequestOrder, UserSession } from './types';
@@ -28,6 +29,7 @@ import SimulationControls from './components/SimulationControls';
 import MapRoute from './components/MapRoute';
 import EndPage from './components/EndPage';
 import InventoryManager from './components/InventoryManager';
+import AICopilot from './components/AICopilot';
 
 // Helper to fetch from localStorage or fallback
 const getStoredData = <T,>(key: string, fallback: T): T => {
@@ -65,9 +67,58 @@ export default function App() {
   const [activeSearch, setActiveSearch] = useState('');
   const [activeFilterCategory, setActiveFilterCategory] = useState<string>('All');
   const [dashboardTab, setDashboardTab] = useState<'hospitals' | 'stores' | 'delivery' | 'inventory'>('hospitals');
+  const [isAICopilotOpen, setIsAICopilotOpen] = useState(false);
   
   // Simulated Autopilot state
   const [isAutopilot, setIsAutopilot] = useState(false);
+
+  const handleAICopilotDispatch = (
+    sourceType: 'hospital' | 'store',
+    sourceId: string,
+    sourceName: string,
+    itemName: string,
+    quantity: number
+  ) => {
+    if (!session) return;
+
+    let sLat = 40;
+    let sLng = 80;
+
+    if (sourceType === 'hospital') {
+      const h = hospitals.find(item => item.id === sourceId);
+      if (h) {
+        sLat = h.lat;
+        sLng = h.lng;
+      }
+    } else {
+      const s = stores.find(item => item.id === sourceId);
+      if (s) {
+        sLat = s.lat;
+        sLng = s.lng;
+      }
+    }
+
+    const newOrder: RequestOrder = {
+      id: `ord-ai-${Date.now()}`,
+      userEmail: session.email,
+      userLocation: session.address,
+      destinationLat: 17.4005,
+      destinationLng: 78.4631,
+      sourceType,
+      sourceId,
+      sourceName,
+      sourceLat: sLat,
+      sourceLng: sLng,
+      itemName,
+      quantity,
+      status: 'pending',
+      createdAt: new Date().toLocaleTimeString(),
+    };
+
+    setActiveOrder(newOrder);
+    setDashboardTab('delivery');
+    setIsAutopilot(true);
+  };
 
   // Sync to local storage
   useEffect(() => {
@@ -163,8 +214,8 @@ export default function App() {
       id: `ord-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
       userEmail: session.email,
       userLocation: session.address,
-      destinationLat: 45, // user position mock
-      destinationLng: -45,
+      destinationLat: 17.4005, // user position - Banjara Hills residential, ~2km from sources
+      destinationLng: 78.4631,
       sourceType: 'hospital',
       sourceId: hospitalId,
       sourceName: targetHosp.name,
@@ -207,8 +258,8 @@ export default function App() {
       id: `ord-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
       userEmail: session.email,
       userLocation: session.address,
-      destinationLat: 45,
-      destinationLng: -45,
+      destinationLat: 17.4005,
+      destinationLng: 78.4631,
       sourceType: 'store',
       sourceId: storeId,
       sourceName: targetStore.name,
@@ -379,6 +430,15 @@ export default function App() {
 
             {/* Quick stats and user action details */}
             <div className="flex items-center gap-4">
+              {/* AI Triage Trigger Button in Header */}
+              <button
+                onClick={() => setIsAICopilotOpen(true)}
+                className="flex items-center gap-2 px-3.5 py-1.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-xl font-medium text-xs shadow-md shadow-cyan-500/20 transition cursor-pointer"
+              >
+                <Sparkles className="w-4 h-4 animate-pulse" />
+                <span>AI Triage Copilot</span>
+              </button>
+
               <div className="hidden lg:flex items-center gap-2 text-xs border-r border-slate-200 pr-4 text-slate-500">
                 <span className="font-medium">Active Address:</span>
                 <span className="font-semibold text-slate-700 truncate max-w-[180px]" title={session.address}>
@@ -498,7 +558,7 @@ export default function App() {
                       }`}
                     >
                       <ShieldCheck className="w-4 h-4" />
-                      <span>Hospital Stock Updates</span>
+                      <span>Facility & Pharmacy Stock Control</span>
                     </button>
 
                     {activeOrder && (
@@ -582,7 +642,8 @@ export default function App() {
                           <StoreCard 
                             key={store.id} 
                             store={store} 
-                            onRequestMedicine={handleRequestMedicine} 
+                            onRequestMedicine={handleRequestMedicine}
+                            onUpdateStock={handleUpdateStoreMedicines} 
                             activeSearchQuery={activeSearch} 
                           />
                         ))}
@@ -688,6 +749,30 @@ export default function App() {
             </div>
             <p className="font-mono">All rights reserved © 2026. Code 56-Emergency-Protocol.</p>
           </footer>
+
+          {/* Floating AI Copilot Trigger Button */}
+          <button
+            onClick={() => setIsAICopilotOpen(true)}
+            className="fixed bottom-6 right-6 z-40 p-4 bg-gradient-to-tr from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-full shadow-2xl shadow-cyan-600/50 border-2 border-white/20 flex items-center gap-2.5 transition transform hover:scale-105 active:scale-95 cursor-pointer group"
+          >
+            <div className="relative">
+              <Sparkles className="w-6 h-6 animate-pulse" />
+              <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+              </span>
+            </div>
+            <span className="font-bold text-xs pr-1 hidden sm:inline">AI Emergency Copilot</span>
+          </button>
+
+          {/* AI Copilot Drawer Modal */}
+          <AICopilot
+            isOpen={isAICopilotOpen}
+            onClose={() => setIsAICopilotOpen(false)}
+            hospitals={hospitals}
+            stores={stores}
+            onInitiateDispatch={handleAICopilotDispatch}
+          />
         </>
       ) : (
         /* Prompt for Registration of hospital or Patient / User initially */
